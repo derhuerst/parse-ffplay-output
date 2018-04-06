@@ -25,6 +25,8 @@
 		"screen-buffer": "^0.4.0"
 	},
 	"devDependencies": {
+		"node-pty": "^0.7.4",
+		"pump": "^3.0.0",
 		"tap-min": "^1.2.2",
 		"tape": "^4.8.0"
 	},

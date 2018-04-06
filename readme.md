@@ -18,9 +18,7 @@ npm install parse-ffplay-output
 
 ## Usage
 
-```js
-todo
-```
+See [the example code](example.js).
 
 
 ## Contributing
