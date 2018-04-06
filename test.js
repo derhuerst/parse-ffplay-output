@@ -10,7 +10,9 @@ const createParser = require('.')
 const file = path.join(__dirname, '440-hz.ogg')
 const shell = platform() === 'win32' ? 'powershell.exe' : 'bash'
 
-test('emits a reasonable progress value', {timeout: 10 * 1000}, (t) => {
+test('emits a reasonable progress value', {timeout: 15 * 1000}, (t) => {
+	t.plan(1 + 3 * 3)
+
 	const sub = pty.spawn(shell, [], {
 		name: 'parse-ffplay-output',
 		cols: 80,
@@ -23,6 +25,10 @@ test('emits a reasonable progress value', {timeout: 10 * 1000}, (t) => {
 	sub.pipe(parser)
 	sub.write(`ffplay -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
 
+	sub.once('exit', function (code) {
+		t.equal(code, 0)
+	})
+
 	const validProgress = (expected) => () => {
 		const p = parser.getProgress()
 		t.equal(typeof p, 'number')
@@ -30,7 +36,6 @@ test('emits a reasonable progress value', {timeout: 10 * 1000}, (t) => {
 		t.ok(Math.round(p), expected)
 	}
 
-	t.plan(3 * 3)
 	setTimeout(validProgress(1), 1 * 1000)
 	setTimeout(validProgress(2), 2 * 1000)
 	setTimeout(validProgress(8), 8 * 1000)

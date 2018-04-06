@@ -19,6 +19,10 @@ const sub = pty.spawn(shell, [], {
 
 sub.write(`ffplay -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
 
+sub.on('exit', function (code) {
+	process.exitCode = code
+})
+
 const parser = createParser()
 sub.pipe(parser)
 
