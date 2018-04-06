@@ -1,11 +1,13 @@
 sudo: false
 language: node_js
-os: osx
+dist: trusty
 node_js:
   - 'stable'
   - '8'
   - '6'
-before_install:
-  - brew install ffmpeg
+addons:
+  apt:
+    packages:
+      - libav-tools
 before_script:
   - ffplay -vn -hide_banner -stats -nodisp -autoexit 440-hz.ogg

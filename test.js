@@ -9,6 +9,7 @@ const createParser = require('.')
 
 const file = path.join(__dirname, '440-hz.ogg')
 const shell = platform() === 'win32' ? 'powershell.exe' : 'bash'
+const exe = platform() === 'linux' ? 'avplay' : 'ffplay'
 
 test('emits a reasonable progress value', {timeout: 15 * 1000}, (t) => {
 	t.plan(1 + 3 * 3)
@@ -23,7 +24,7 @@ test('emits a reasonable progress value', {timeout: 15 * 1000}, (t) => {
 
 	const parser = createParser()
 	sub.pipe(parser)
-	sub.write(`ffplay -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
+	sub.write(`${exe} -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
 
 	sub.once('exit', function (code) {
 		t.equal(code, 0)

@@ -8,6 +8,7 @@ const createParser = require('.')
 
 const file = path.join(__dirname, '440-hz.ogg')
 const shell = platform() === 'win32' ? 'powershell.exe' : 'bash'
+const exe = platform() === 'linux' ? 'avplay' : 'ffplay'
 
 const sub = pty.spawn(shell, [], {
 	name: 'parse-ffplay-output',
@@ -17,7 +18,7 @@ const sub = pty.spawn(shell, [], {
 	env: process.env
 })
 
-sub.write(`ffplay -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
+sub.write(`${exe} -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
 
 sub.on('exit', function (code) {
 	process.exitCode = code
