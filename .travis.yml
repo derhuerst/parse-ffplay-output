@@ -10,4 +10,4 @@ addons:
     packages:
       - libav-tools
 before_script:
-  - ffplay -vn -hide_banner -stats -nodisp -autoexit 440-hz.ogg
+  - avplay -vn -hide_banner -stats -nodisp -autoexit 440-hz.ogg
