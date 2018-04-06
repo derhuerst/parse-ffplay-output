@@ -4,3 +4,9 @@ node_js:
   - 'stable'
   - '8'
   - '6'
+addons:
+  apt:
+    packages:
+    - ffmpeg
+before_script:
+  - ffplay -vn -hide_banner -stats -nodisp -autoexit 440-hz.ogg
