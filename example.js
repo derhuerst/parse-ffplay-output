@@ -19,13 +19,15 @@ const sub = pty.spawn(shell, [], {
 
 sub.write(`ffplay -vn -hide_banner -stats -nodisp -autoexit '${file}'; exit\n`)
 
-sub.on('exit', function (code) {
+sub.once('exit', function (code) {
+	parser.end()
+	clearInterval(interval)
 	process.exitCode = code
 })
 
 const parser = createParser()
 sub.pipe(parser)
 
-setInterval(() => {
+const interval = setInterval(() => {
 	console.error('progress', parser.getProgress())
 }, 1 * 1000)
